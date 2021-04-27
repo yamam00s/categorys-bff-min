@@ -1,0 +1,11 @@
+{
+  "name": "server",
+  "dependencies": {
+    "@yarnpkg/pnpify": "^3.0.0-rc.3",
+    "apollo-server": "^2.23.0",
+    "graphql": "^15.5.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.4"
+  }
+}
