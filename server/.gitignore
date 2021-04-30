@@ -15,3 +15,6 @@
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+
+# microCMS key
+.cms.config.json
