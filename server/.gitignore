@@ -18,3 +18,6 @@
 
 # microCMS key
 .cms.config.json
+
+# tsc dist File
+dist

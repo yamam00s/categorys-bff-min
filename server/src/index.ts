@@ -1,4 +1,5 @@
 import { ApolloServer, gql } from 'apollo-server'
+import { fetchCms } from './fetch-cms'
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
@@ -45,7 +46,9 @@ const resolvers = {
 const server = new ApolloServer({ typeDefs, resolvers });
 
 // The `listen` method launches a web server.
-server.listen().then(({ url }) => {
+server.listen().then(async({ url }: { url: string }) => {
+  const arranged = await fetchCms('arranged')
+  console.log(arranged)
   console.log(`🚀  Server ready at ${url}`);
 });
 
