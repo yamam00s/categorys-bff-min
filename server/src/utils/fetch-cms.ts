@@ -1,5 +1,5 @@
 import axios from 'axios'
-import cmsConfig from './.cms.config.json'
+import cmsConfig from '../.cms.config.json'
 
 export const fetchCms = async<T>(endPoint: string): Promise<T> => {
   const key = {
