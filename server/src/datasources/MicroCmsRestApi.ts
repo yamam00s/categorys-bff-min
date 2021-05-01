@@ -14,6 +14,11 @@ class MicroCmsRestApi extends RESTDataSource {
     : []
   }
 
+  async getContentsByTitle(selectedTitle: string) {
+    const allContents = await this.getContents()
+    return allContents.filter(content => content.title === selectedTitle)
+  }
+
   contentsReducer(content: Content) {
     return {
       id: content.id!,
