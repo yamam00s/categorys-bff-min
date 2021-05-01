@@ -30,4 +30,15 @@ export const typeDefs = gql`
     favorites: [Favorites]
     selectedContents(title: String!): Contents
   }
+
+  type FavoriteUpdateResponse {
+    success: Boolean!
+    message: String
+    favorites: [Favorites]
+  }
+
+  type Mutation {
+    addFavorite(title: String!): FavoriteUpdateResponse!
+    removeFavorite(title: String!): FavoriteUpdateResponse!
+  }
 `
