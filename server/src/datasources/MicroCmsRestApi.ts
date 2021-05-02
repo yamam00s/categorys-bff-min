@@ -1,7 +1,7 @@
 import { RESTDataSource } from 'apollo-datasource-rest'
 import { Content } from '../models/contents'
 
-class MicroCmsRestApi extends RESTDataSource {
+export class MicroCmsRestApi extends RESTDataSource {
   constructor() {
     super()
     this.baseURL = 'https://categorys-bff-min.microcms.io/api/v1/'
@@ -30,5 +30,3 @@ class MicroCmsRestApi extends RESTDataSource {
     }
   }
 }
-
-module.exports = MicroCmsRestApi
