@@ -7,7 +7,7 @@ export type Content = {
   priority?: number
 }
 
-export const contents: Content = {
+export const blankContents: Content = {
   id: 0,
   categoryId: 0,
   title: '',
