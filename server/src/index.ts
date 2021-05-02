@@ -17,5 +17,5 @@ const server = new ApolloServer({
 server.listen().then(async({ url }: { url: string }) => {
   // const arranged = await fetchCms('arranged')
   // console.log(arranged)
+  console.log(`🚀  Server ready at ${url}`)
 })
-  console.log(`🚀  Server ready at ${url}`);
