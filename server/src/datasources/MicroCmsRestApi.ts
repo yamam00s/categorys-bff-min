@@ -1,5 +1,6 @@
 import { RESTDataSource } from 'apollo-datasource-rest'
 import { Contents } from '../models/contents'
+import { Arranged } from '../models/arranged'
 import cmsConfig from '../.cms.config.json'
 
 export class MicroCmsRestApi extends RESTDataSource {
@@ -33,15 +34,30 @@ export class MicroCmsRestApi extends RESTDataSource {
     return allContents.filter(item => item.title === selectedTitle)
   }
 
+  async fetchArranged() {
+    const { contents } = await this.fetchCmsContents('arranged')
+    return contents
+      ? contents.map(item => this.arrangedReducer(item))
+      : []
+  }
+
   // Reducer
   contentsReducer(contents: Contents) {
     return {
-      id: contents.id!,
+      id: contents.id,
       categoryId: contents.categoryId,
       title: contents.title,
       public_started: contents.public_started,
       public_ended: contents.public_ended,
       priority: contents.priority || 0
+    }
+  }
+
+  arrangedReducer(arranged: Arranged) {
+    return {
+      id: arranged.id,
+      categoryId: arranged.categoryId,
+      contents: arranged.contents.map(item => this.contentsReducer(item))
     }
   }
 }

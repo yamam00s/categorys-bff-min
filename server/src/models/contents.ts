@@ -1,5 +1,5 @@
 export type Contents = {
-  id: number
+  id: string
   categoryId: number
   title: string
   public_started: string
@@ -8,7 +8,7 @@ export type Contents = {
 }
 
 export const blankContents: Contents = {
-  id: 0,
+  id: '',
   categoryId: 0,
   title: '',
   public_started: '',
