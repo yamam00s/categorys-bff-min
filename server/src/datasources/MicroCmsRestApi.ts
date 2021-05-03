@@ -1,6 +1,7 @@
 import { RESTDataSource } from 'apollo-datasource-rest'
 import { Contents } from '../models/contents'
 import { Arranged } from '../models/arranged'
+import { Favorites } from '../models/favorites'
 import cmsConfig from '../.cms.config.json'
 
 export class MicroCmsRestApi extends RESTDataSource {
@@ -41,6 +42,13 @@ export class MicroCmsRestApi extends RESTDataSource {
       : []
   }
 
+  async fetchFavorites() {
+    const { contents } = await this.fetchCmsContents('favorites')
+    return contents
+      ? contents.map(item => this.favoritesReducer(item))
+      : []
+  }
+
   // Reducer
   contentsReducer(contents: Contents) {
     return {
@@ -58,6 +66,13 @@ export class MicroCmsRestApi extends RESTDataSource {
       id: arranged.id,
       categoryId: arranged.categoryId,
       contents: arranged.contents.map(item => this.contentsReducer(item))
+    }
+  }
+
+  favoritesReducer(favorites: Favorites) {
+    return {
+      id: favorites.id,
+      contents: this.contentsReducer(favorites.contents),
     }
   }
 }

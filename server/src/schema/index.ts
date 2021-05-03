@@ -21,7 +21,7 @@ export const typeDefs = gql`
 
   type Favorites {
     id: ID!
-    contents: [Contents]
+    contents: Contents
   }
 
   type Query {
