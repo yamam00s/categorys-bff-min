@@ -1,4 +1,4 @@
-export type Content = {
+export type Contents = {
   id: number
   categoryId: number
   title: string
@@ -7,7 +7,7 @@ export type Content = {
   priority?: number
 }
 
-export const blankContents: Content = {
+export const blankContents: Contents = {
   id: 0,
   categoryId: 0,
   title: '',

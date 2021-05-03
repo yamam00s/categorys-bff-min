@@ -1,6 +1,6 @@
 export const resolvers = {
   Query: {
     contents: (_, __, { dataSources }) =>
-      dataSources.microCmsRestApi.getContents()
+      dataSources.microCmsRestApi.getAllContents()
   }
 }
