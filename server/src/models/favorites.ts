@@ -1,11 +1,11 @@
 import { Contents, blankContents } from './contents'
 
-export type Favorites = {
+export type Favorite = {
   id: string
   contents: Contents
 }
 
-export const blankFavorites: Favorites = {
+export const blankFavorite: Favorite = {
   id: '',
   contents: blankContents
 }

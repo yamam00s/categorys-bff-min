@@ -24,10 +24,16 @@ export const typeDefs = gql`
     contents: Contents
   }
 
+  type FavoritesByCategoryIds {
+    categoryId: Int!
+    contents: [Contents]
+  }
+
   type Query {
     contents: [Contents]
     arranged: [Arranged]
     favorites: [Favorites]
+    favoritesByCategoryIds: [FavoritesByCategoryIds]
     selectedContents(title: String!): Contents
   }
 

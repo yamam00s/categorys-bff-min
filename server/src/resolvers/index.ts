@@ -5,6 +5,8 @@ export const resolvers = {
     arranged: (_, __, { dataSources }) =>
       dataSources.microCmsRestApi.fetchArranged(),
     favorites: (_, __, { dataSources }) =>
-      dataSources.microCmsRestApi.fetchFavorites()
+      dataSources.microCmsRestApi.fetchFavorites(),
+    favoritesByCategoryIds: (_, __, { dataSources }) =>
+    dataSources.microCmsRestApi.fetchFavoritesByCategoryIds()
   }
 }
