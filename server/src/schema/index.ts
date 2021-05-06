@@ -31,10 +31,10 @@ export const typeDefs = gql`
 
   type Query {
     contents: [Contents]
+    singleContentsById(id: ID!): Contents
     arranged: [Arranged]
     favorites: [Favorites]
     favoritesByCategoryIds: [FavoritesByCategoryIds]
-    selectedContents(title: String!): Contents
   }
 
   type FavoriteUpdateResponse {

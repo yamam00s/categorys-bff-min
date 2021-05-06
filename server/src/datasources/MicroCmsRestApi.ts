@@ -19,15 +19,23 @@ export class MicroCmsRestApi extends RESTDataSource {
       })
     } catch(error) {
       console.log(error)
-      return null
+      return []
     }
   }
 
   async fetchAllContents() {
     const { contents } = await this.fetchCmsContents('contents')
-    return contents
+    return contents.length
       ? contents.map(item => this.contentsReducer(item))
       : []
+  }
+
+  async fetchSingleContentsById({ id }: { id: string }) {
+    const { contents } = await this.fetchCmsContents('contents')
+    const findResultItem = contents.find(item => item.id === id)
+    return findResultItem
+      ? this.contentsReducer(findResultItem)
+      : null
   }
 
   async fetchContentsByTitle(selectedTitle: string) {
@@ -37,21 +45,21 @@ export class MicroCmsRestApi extends RESTDataSource {
 
   async fetchArranged() {
     const { contents } = await this.fetchCmsContents('arranged')
-    return contents
+    return contents.length
       ? contents.map(item => this.arrangedReducer(item))
       : []
   }
 
   async fetchFavorites() {
     const { contents } = await this.fetchCmsContents('favorites')
-    return contents
+    return contents.length
       ? contents.map(item => this.favoritesReducer(item))
       : []
   }
 
   async fetchFavoritesByCategoryIds() {
     const { contents } = await this.fetchCmsContents('favorites')
-    return contents
+    return contents.length
       ? this.favoritesByCategoryIdsReducer(contents)
       : []
   }
