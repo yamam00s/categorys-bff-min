@@ -21,3 +21,5 @@
 
 # tsc dist File
 dist
+
+.env
