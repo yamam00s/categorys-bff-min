@@ -1,8 +1,37 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {
+  ApolloClient,
+  InMemoryCache,
+  HttpLink,
+  gql
+} from '@apollo/client'
 
-function App() {
+
+const App = () => {
+  const cache = new InMemoryCache();
+  const link = new HttpLink({
+    uri: 'http://localhost:4000/'
+  })
+
+  const client = new ApolloClient({
+    cache,
+    link
+  })
+
+  client
+  .query({
+    query: gql`
+      query {
+        contents {
+          id
+        }
+      }
+    `
+  })
+  .then(result => console.log(result))
+
   return (
     <div className="App">
       <header className="App-header">
