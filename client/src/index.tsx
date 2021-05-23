@@ -11,7 +11,7 @@ import {
   gql
 } from '@apollo/client'
 
-const cache = new InMemoryCache();
+const cache = new InMemoryCache()
 const link = new HttpLink({
   uri: 'http://localhost:4000/'
 })
