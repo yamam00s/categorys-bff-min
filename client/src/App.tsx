@@ -1,54 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import {
-  ApolloClient,
-  InMemoryCache,
-  HttpLink,
-  gql
-} from '@apollo/client'
-
+import React from 'react'
+import logo from './logo.svg'
+import './App.css'
+import { useQuery } from '@apollo/client'
+import { GET_CONTENTS } from './schema/app'
 
 const App = () => {
-  const cache = new InMemoryCache();
-  const link = new HttpLink({
-    uri: 'http://localhost:4000/'
-  })
+  const { data, loading, error } = useQuery(GET_CONTENTS)
 
-  const client = new ApolloClient({
-    cache,
-    link
-  })
-
-  client
-  .query({
-    query: gql`
-      query {
-        contents {
-          id
-        }
-      }
-    `
-  })
-  .then(result => console.log(result))
+  if (loading) return <p>loading</p>
+  if (error) return <p>ERROR: {error.message}</p>
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {data.contents &&
+        data.contents.map((item: any) => (
+          <p
+            key={item.id}
+          >{item.title}</p>
+        ))}
+    </>
   );
 }
 

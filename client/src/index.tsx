@@ -1,12 +1,43 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import App from './App'
+import reportWebVitals from './reportWebVitals'
+import { ApolloProvider } from '@apollo/client'
+import {
+  ApolloClient,
+  InMemoryCache,
+  HttpLink,
+  gql
+} from '@apollo/client'
+
+const cache = new InMemoryCache();
+const link = new HttpLink({
+  uri: 'http://localhost:4000/'
+})
+
+const client = new ApolloClient({
+  cache,
+  link
+})
+
+// client
+// .query({
+//   query: gql`
+//     query contents {
+//       contents {
+//         id
+//       }
+//     }
+//   `
+// })
+// .then(result => console.log(result))
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ApolloProvider client={client}>
+        <App />
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
