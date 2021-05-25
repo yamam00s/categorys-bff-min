@@ -8,6 +8,7 @@
     "@yarnpkg/pnpify": "^3.0.0-rc.3",
     "apollo-datasource-rest": "^0.13.0",
     "apollo-server": "^2.23.0",
+    "apollo-server-lambda": "^2.24.1",
     "axios": "^0.21.1",
     "graphql": "^15.5.0"
   },
