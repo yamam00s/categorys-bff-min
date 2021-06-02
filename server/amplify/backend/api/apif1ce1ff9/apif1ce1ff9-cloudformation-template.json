@@ -8,15 +8,15 @@
         },
     
     
-          "functioncategorysbffmin0dd41dd2Name": {
+          "functioncategorysbffmine67132e9Name": {
             "Type": "String",
-            "Default": "functioncategorysbffmin0dd41dd2Name"
+            "Default": "functioncategorysbffmine67132e9Name"
           },
 
           
-          "functioncategorysbffmin0dd41dd2Arn": {
+          "functioncategorysbffmine67132e9Arn": {
             "Type": "String",
-            "Default": "functioncategorysbffmin0dd41dd2Arn"
+            "Default": "functioncategorysbffmine67132e9Arn"
           }
 
           
@@ -37,16 +37,16 @@
         
         
         
-      "apib294e19f": {
+      "apif1ce1ff9": {
         "Type": "AWS::ApiGateway::RestApi",
         "Properties": {
           "Description": "",
-          "Name": "apib294e19f",
+          "Name": "apif1ce1ff9",
           "Body": {
             "swagger": "2.0",
             "info": {
               "version": "2018-05-24T17:52:00Z",
-              "title": "apib294e19f"
+              "title": "apif1ce1ff9"
             },
             "host": {
                 "Fn::Join": [
@@ -82,7 +82,7 @@
             ],
             "paths": {
               
-              "/items": {
+              "/graphql": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -168,7 +168,7 @@
                             
                             {
 
-                                "Ref": "functioncategorysbffmin0dd41dd2Arn"
+                                "Ref": "functioncategorysbffmine67132e9Arn"
                             },
                             
                             "/invocations"
@@ -181,7 +181,7 @@
                   }
                 }
               },
-              "/items/{proxy+}": {
+              "/graphql/{proxy+}": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -267,7 +267,7 @@
                           
                           {
 
-                            "Ref": "functioncategorysbffmin0dd41dd2Arn"
+                            "Ref": "functioncategorysbffmine67132e9Arn"
                           },
                           
                           "/invocations"
@@ -324,12 +324,12 @@
       
         
 
-        "functioncategorysbffmin0dd41dd2Permissionapib294e19f": {
+        "functioncategorysbffmine67132e9Permissionapif1ce1ff9": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
                 "FunctionName": 
                     {
-                        "Ref":  "functioncategorysbffmin0dd41dd2Name"
+                        "Ref":  "functioncategorysbffmine67132e9Name"
                     },
                     
                     "Action": "lambda:InvokeFunction",
@@ -348,7 +348,7 @@
                             },
                             ":",
                             {
-                                "Ref": "apib294e19f"
+                                "Ref": "apif1ce1ff9"
                             },
                             "/*/*/*"
                         ]
@@ -359,7 +359,7 @@
         
         
 
-      "DeploymentAPIGWapib294e19f": {
+      "DeploymentAPIGWapif1ce1ff9": {
         "Type": "AWS::ApiGateway::Deployment",
         "Properties": {
           "Description": "The Development stage deployment of your API.",
@@ -373,7 +373,7 @@
             ]
           },
           "RestApiId": {
-            "Ref": "apib294e19f"
+            "Ref": "apif1ce1ff9"
           }
         }
       }
@@ -381,15 +381,15 @@
     "Outputs": {
         "RootUrl": {
             "Description": "Root URL of the API gateway",
-            "Value": {"Fn::Join": ["", ["https://", {"Ref": "apib294e19f"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
+            "Value": {"Fn::Join": ["", ["https://", {"Ref": "apif1ce1ff9"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
         },
         "ApiName": {
           "Description": "API Friendly name",
-          "Value": "apib294e19f"
+          "Value": "apif1ce1ff9"
         },
         "ApiId": {
           "Description": "API ID (prefix of API URL)",
-          "Value": {"Ref": "apib294e19f"}
+          "Value": {"Ref": "apif1ce1ff9"}
         }
     }
   }

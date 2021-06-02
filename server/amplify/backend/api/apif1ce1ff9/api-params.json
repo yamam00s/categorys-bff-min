@@ -1,0 +1,35 @@
+{
+  "paths": [
+    {
+      "name": "/graphql",
+      "lambdaFunction": "categorysbffmine67132e9",
+      "privacy": {
+        "open": true
+      },
+      "policyResourceName": "/graphql"
+    }
+  ],
+  "resourceName": "apif1ce1ff9",
+  "apiName": "apif1ce1ff9",
+  "functionArns": [
+    {
+      "lambdaFunction": "categorysbffmine67132e9"
+    }
+  ],
+  "privacy": {
+    "auth": 0,
+    "unauth": 0,
+    "authRoleName": "amplify-categorysbffmin-dev-205354-authRole",
+    "unAuthRoleName": "amplify-categorysbffmin-dev-205354-unauthRole"
+  },
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "categorysbffmine67132e9",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    }
+  ]
+}

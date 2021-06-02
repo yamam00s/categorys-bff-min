@@ -1,19 +1,19 @@
 {
   "function": {
-    "categorysbffmin0dd41dd2": {
+    "categorysbffmine67132e9": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
   },
   "api": {
-    "apib294e19f": {
+    "apif1ce1ff9": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "categorysbffmin0dd41dd2",
+          "resourceName": "categorysbffmine67132e9",
           "attributes": [
             "Name",
             "Arn"
