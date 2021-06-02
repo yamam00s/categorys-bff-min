@@ -9,6 +9,12 @@ const server = new ApolloServer({
   resolvers,
   dataSources: () => ({
     microCmsRestApi: new MicroCmsRestApi()
+  }),
+  context: ({ event, context }) => ({
+    headers: event.headers,
+    functionName: context.functionName,
+    event,
+    context,
   })
 })
 
