@@ -13,7 +13,8 @@ import {
 
 const cache = new InMemoryCache()
 const link = new HttpLink({
-  uri: 'http://localhost:4000/'
+  // uri: 'http://localhost:4000/'
+  uri: 'https://aiah43ed9l.execute-api.ap-northeast-1.amazonaws.com/dev/graphql'
 })
 
 const client = new ApolloClient({
