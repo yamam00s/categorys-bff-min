@@ -14,13 +14,13 @@ const App = () => {
 
   return (
     <>
-      {/* {data.contents.map(item => (
+      {data.contents.map(item => (
         item && (
           <p
             key={item.id}
           >{item.title}</p>
         )
-      ))} */}
+      ))}
     </>
   );
 }

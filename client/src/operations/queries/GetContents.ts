@@ -1,16 +1,10 @@
 import { gql } from '@apollo/client'
 
-// export const GET_CONTENTS = gql`
-//   query GetContents {
-//     contents {
-//       id
-//       title
-//     }
-//   }
-// `
-
 export const GET_CONTENTS = gql`
   query GetContents {
-    hello
+    contents {
+      id
+      title
+    }
   }
 `
