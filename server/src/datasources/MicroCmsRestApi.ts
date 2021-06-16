@@ -1,8 +1,9 @@
 import { RESTDataSource } from 'apollo-datasource-rest'
-import { Contents } from '../models/contents'
-import { Arranged } from '../models/arranged'
-import { Favorite } from '../models/favorites'
 import cmsConfig from '../.cms.config.json'
+import { Contents, Arranged, Favorites } from '../generated/graphql'
+import { Contents as ContentsModel } from '../models/contents'
+import { Arranged as ArrangedModel } from '../models/arranged'
+import { Favorite as FavoriteModel  } from '../models/favorites'
 
 export class MicroCmsRestApi extends RESTDataSource {
   constructor() {
@@ -12,11 +13,12 @@ export class MicroCmsRestApi extends RESTDataSource {
   }
 
   // fetch
-  async fetchCmsContents(endPoint: string) {
+  async fetchCmsContents<T>(endPoint: string): Promise<T | []> {
     try {
-      return await this.get(endPoint, '', {
+      const { contents } =  await this.get(endPoint, '', {
         headers: { 'X-API-KEY':  cmsConfig.get_api_key },
       })
+      return contents
     } catch(error) {
       console.log(error)
       return []
@@ -24,15 +26,15 @@ export class MicroCmsRestApi extends RESTDataSource {
   }
 
   async fetchAllContents() {
-    const { contents } = await this.fetchCmsContents('contents')
-    return contents.length
-      ? contents.map(item => this.contentsReducer(item))
+    const res = await this.fetchCmsContents<Contents[]>('contents')
+    return res.length
+      ? res.map(item => this.contentsReducer(item))
       : []
   }
 
   async fetchSingleContentsById({ id }: { id: string }) {
-    const { contents } = await this.fetchCmsContents('contents')
-    const findResultItem = contents.find(item => item.id === id)
+    const res = await this.fetchCmsContents<Contents[]>('contents')
+    const findResultItem = res.find(item => item.id === id)
     return findResultItem
       ? this.contentsReducer(findResultItem)
       : null
@@ -44,28 +46,28 @@ export class MicroCmsRestApi extends RESTDataSource {
   }
 
   async fetchArranged() {
-    const { contents } = await this.fetchCmsContents('arranged')
-    return contents.length
-      ? contents.map(item => this.arrangedReducer(item))
+    const res = await this.fetchCmsContents<Arranged[]>('arranged')
+    return res.length
+      ? res.map(item => this.arrangedReducer(item))
       : []
   }
 
   async fetchFavorites() {
-    const { contents } = await this.fetchCmsContents('favorites')
-    return contents.length
-      ? contents.map(item => this.favoritesReducer(item))
+    const res = await this.fetchCmsContents<Favorites[]>('favorites')
+    return res.length
+      ? res.map(item => this.favoritesReducer(item))
       : []
   }
 
   async fetchFavoritesByCategoryIds() {
-    const { contents } = await this.fetchCmsContents('favorites')
-    return contents.length
-      ? this.favoritesByCategoryIdsReducer(contents)
+    const res = await this.fetchCmsContents<Favorites[]>('favorites')
+    return res.length
+      ? this.favoritesByCategoryIdsReducer(res)
       : []
   }
 
   // Reducer
-  contentsReducer(contents: Contents) {
+  contentsReducer(contents: ContentsModel) {
     return {
       id: contents.id,
       categoryId: contents.categoryId,
@@ -76,22 +78,22 @@ export class MicroCmsRestApi extends RESTDataSource {
     }
   }
 
-  arrangedReducer(arranged: Arranged) {
+  arrangedReducer(arranged: ArrangedModel) {
     return {
       id: arranged.id,
       categoryId: arranged.categoryId,
-      contents: arranged.contents.map(item => this.contentsReducer(item))
+      contents: arranged!.contents.map(item => this.contentsReducer(item))
     }
   }
 
-  favoritesReducer(favorite: Favorite) {
+  favoritesReducer(favorite: FavoriteModel) {
     return {
       id: favorite.id,
       contents: this.contentsReducer(favorite.contents),
     }
   }
 
-  favoritesByCategoryIdsReducer(favorites: Favorite[]) {
+  favoritesByCategoryIdsReducer(favorites: FavoriteModel[]) {
     const categoryIds = [...new Set(favorites.map(item => item.contents.categoryId))]
     return categoryIds.map(categoryId => {
       return {
