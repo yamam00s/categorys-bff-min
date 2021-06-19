@@ -2,7 +2,8 @@
   "name": "server",
   "scripts": {
     "dev": "ts-node src/index.ts",
-    "generates": "graphql-codegen --config codegen.yml"
+    "generates": "graphql-codegen --config codegen.yml",
+    "amplify:categorysbffmine67132e9": "cd amplify/backend/function/categorysbffmine67132e9/src && npx tsc -p ./tsconfig.json && cd -"
   },
   "dependencies": {
     "@yarnpkg/pnpify": "^3.0.0-rc.3",
