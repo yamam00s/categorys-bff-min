@@ -1,13 +1,23 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 
-
-export const Counter: FC = () => {
+export const AsyncCounter = ({ delay = 1000 }: { delay?: number }) => {
   const [count, setCount] = useState(0)
+  const [isLoading, setLoading] = useState(false)
+  const handler = () => {
+    setLoading(true)
+    setTimeout(() => {
+      setCount(count + 1)
+      setLoading(false)
+    }, delay)
+  }
   return (
     <>
-      <div>Count: {count}</div>
+      <div>AsyncCount: {count}</div>
       <div>
-        <button onClick={() => setCount(count + 1)}>Increment</button>
+        {isLoading && <span>...Loading</span>}
+        <button onClick={handler} disabled={isLoading}>
+          AsyncIncrement
+        </button>
       </div>
     </>
   )
