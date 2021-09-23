@@ -10,7 +10,11 @@ import {
   HttpLink,
   gql
 } from '@apollo/client'
+import { createStore } from 'redux'
+import { counterReducer, initialState } from './reducer'
+import { Provider } from 'react-redux'
 
+const store = createStore(counterReducer, initialState )
 const cache = new InMemoryCache()
 const link = new HttpLink({
   // uri: 'http://localhost:4000/'
@@ -37,7 +41,9 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
+      <Provider store={store}>
         <App />
+      </Provider>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
