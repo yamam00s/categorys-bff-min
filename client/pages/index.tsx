@@ -25,7 +25,7 @@ const Home: NextPage = () => {
       const endpoints = ['status', 'recommend', 'pickup']
       const fetchData = endpoints.map(endpoint =>
         axios.get<MicroCmsItem<Status[] | ContentsList[]>>(`https://categorys-bff-min.microcms.io/api/v1/${endpoint}`, { headers }))
-      const [statusResponse, recommendResponse, pickupResponse] = await Promise.all([...fetchData])
+      const [statusResponse, recommendResponse, pickupResponse] = await Promise.all(fetchData)
       const statusList = statusResponse.data.contents as Status[]
       const recommend = recommendResponse.data.contents as ContentsList[]
       const pickup = pickupResponse.data.contents as ContentsList[]
