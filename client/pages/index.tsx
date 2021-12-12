@@ -29,7 +29,6 @@ const Home: NextPage = () => {
       const statusList = statusResponse.data.contents as Status[]
       const recommend = recommendResponse.data.contents as ContentsList[]
       const pickup = pickupResponse.data.contents as ContentsList[]
-
       // queryのステータスからステータスを取得
       const findStatus = (statusList: Status[]) => {
         const { memberStatus } = query
@@ -39,15 +38,14 @@ const Home: NextPage = () => {
       }
       const status = findStatus(statusList)
       if (!status) return
-
       // 自身のステータスに該当するコンテンツを取得
       const filteredRecommend = recommend.filter(recommendItem =>
         recommendItem.contents.status.some(listStatus => listStatus.id === status.id))
       setRecommend(filteredRecommend)
-
+      setPickup(pickup)
     }
     init()
-  }, [isReady, query,])
+  }, [isReady, query])
 
   return (
     <div className={styles.container}>
@@ -71,15 +69,12 @@ const Home: NextPage = () => {
         <div>
           <h2>ピックアップ</h2>
           <div className={styles.grid}>
-            <a href="https://nextjs.org/docs" className={styles.card}>
-              <h2>Documentation &rarr;</h2>
-              <p>Find in-depth information about Next.js features and API.</p>
-            </a>
-
-            <a href="https://nextjs.org/learn" className={styles.card}>
-              <h2>Learn &rarr;</h2>
-              <p>Learn about Next.js in an interactive course with quizzes!</p>
-            </a>
+            {pickup.map((item, id) =>(
+              <a href="https://nextjs.org/docs" className={styles.card} key={`pickup${id}`} >
+                <h3>{item.contents.title}</h3>
+                <p>{item.contents.description}</p>
+              </a>
+            ))}
           </div>
         </div>
       </main>

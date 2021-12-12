@@ -2,8 +2,8 @@
 
 1. queryからステータスを取得
 2. `v1/status`から該当のステータスIDを取得
-1. おすすめ: ステータスIDでコンテンツを出し分け
-2. ピックアップ: おすすめとコンテンツを重複させない
+3. おすすめ: ステータスIDでコンテンツを出し分け
+4. ピックアップ: そのまま表示
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
