@@ -5,8 +5,8 @@ import { AppService, PublicItem } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): PublicItem[] {
+  @Get('/items')
+  getItems(): PublicItem[] {
     return this.appService.getPublicItems();
   }
 }
