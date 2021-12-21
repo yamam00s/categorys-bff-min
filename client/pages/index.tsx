@@ -12,40 +12,42 @@ const Home: NextPage = () => {
     name: ''
   }
   const { query, isReady } = useRouter()
+  const statusName = query?.memberStatus
   const [status, setStatus] = useState<Status>(blankStatus)
   const [topContents, setTopContents] = useState<ContentsList[]>([])
+
   // ステータスに該当するコンテンツを取得
-  const filterStatusContents = (contents: ContentsList[], status: Status) =>
-    contents.filter(contentsItem => contentsItem.contents.status.some(listStatus => listStatus.id === status.id))
+  const filterStatusContents = useCallback((contents: ContentsList[], status: Status) =>
+    contents.filter(contentsItem => contentsItem.contents.status.some(listStatus => listStatus.id === status.id)),[])
 
   // queryのステータスからステータスを取得
   const findStatus = useCallback((statusList: Status[]) => {
-    const { memberStatus } = query
-    const selected = statusList.find(status => memberStatus === status.name)
+    const selected = statusList.find(status => statusName === status.name)
     selected && setStatus(selected)
     return selected
-  }, [query])
+  }, [statusName])
+
+  // fetchとsetState
+  const homeInitialize = useCallback(async() => {
+    const headers = { 'X-MICROCMS-API-KEY': apiKey }
+    const endpoints = ['status', 'recommend', 'pickup']
+    const fetchData = endpoints.map(endpoint =>
+      axios.get<MicroCmsItem<Status[] | ContentsList[]>>(`https://categorys-bff-min.microcms.io/api/v1/${endpoint}`, { headers }))
+    const [statusResponse, recommendResponse, pickupResponse] = await Promise.all(fetchData)
+    const statusList = statusResponse.data.contents as Status[]
+    const status = findStatus(statusList)
+    // ステータスが存在しない場合後続の処理を実施しない
+    if (!status) return
+    const topContents = ([recommendResponse.data.contents, pickupResponse.data.contents] as ContentsList[][])
+      .map(contents => filterStatusContents(contents, status))
+      .sort((a, b) => b.length - a.length)[0]
+    setTopContents(topContents)
+  }, [findStatus, filterStatusContents])
 
   useEffect(() => {
     if (!isReady) return
-    const init = async () => {
-      const headers = { 'X-MICROCMS-API-KEY': apiKey }
-      const endpoints = ['status', 'recommend', 'pickup']
-      const fetchData = endpoints.map(endpoint =>
-        axios.get<MicroCmsItem<Status[] | ContentsList[]>>(`https://categorys-bff-min.microcms.io/api/v1/${endpoint}`, { headers }))
-      const [statusResponse, recommendResponse, pickupResponse] = await Promise.all(fetchData)
-      const statusList = statusResponse.data.contents as Status[]
-      const status = findStatus(statusList)
-      // ステータスが存在しない場合後続の処理を実施しない
-      if (!status) return
-      const topContents = ([recommendResponse.data.contents, pickupResponse.data.contents] as ContentsList[][])
-        .map(contents => filterStatusContents(contents, status))
-        .sort((a, b) => b.length - a.length)[0]
-      setTopContents(topContents)
-      console.log(topContents)
-    }
-    init()
-  }, [isReady, findStatus])
+    homeInitialize()
+  }, [isReady, homeInitialize])
 
   return (
     <div className={styles.container}>
