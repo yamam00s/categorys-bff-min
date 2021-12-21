@@ -45,9 +45,9 @@ const Home: NextPage = () => {
   }, [findStatus, filterStatusContents])
 
   useEffect(() => {
-    if (!isReady) return
+    if (!isReady && statusName) return
     homeInitialize()
-  }, [isReady, homeInitialize])
+  }, [isReady, homeInitialize, statusName])
 
   return (
     <div className={styles.container}>
