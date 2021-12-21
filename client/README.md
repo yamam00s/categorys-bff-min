@@ -1,9 +1,15 @@
+## microCMS(API)のコンテンツ内容
+- コンテンツ(/v1/contents): コンテンツ一覧
+- おすすめ(/v1/recommend): コンテンツ一覧から一部を取得
+- ピックアップ(/v1/pickup): コンテンツ一覧から一部を取得
+- スタータス(/v1/status): ユーザーのステータス種別一覧
 ## コンテンツ表示要件
-
-1. queryからステータスを取得
-2. `v1/status`から該当のステータスIDを取得
-3. おすすめ: ステータスIDでコンテンツを出し分け
-4. ピックアップ: そのまま表示
+- コンテンツのスキーマの中に、対象ユーザーのステータスID配列が含まれている
+1. QueryStringからステータスを取得
+2. `v1/status`を取得し、該当のステータスIDを取得
+3. `v1/recommend`でおすすめ、`v1/pickup`でピックアップコンテンツを取得
+4. おすすめとピックアップ両方をステータスIDで出し分け
+5. 要素数が多い方を表示
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
