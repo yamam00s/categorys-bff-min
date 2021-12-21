@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import styles from '../styles/Home.module.css'
 import axios from 'axios'
 import { Status, ContentsList, MicroCmsItem } from '../types/index'
@@ -13,10 +13,18 @@ const Home: NextPage = () => {
   }
   const { query, isReady } = useRouter()
   const [status, setStatus] = useState<Status>(blankStatus)
-  const [recommend, setRecommend] = useState<ContentsList[]>([])
-  const [pickup, setPickup] = useState<ContentsList[]>([])
+  const [topContents, setTopContents] = useState<ContentsList[]>([])
+  // ステータスに該当するコンテンツを取得
+  const filterStatusContents = (contents: ContentsList[], status: Status) =>
+    contents.filter(contentsItem => contentsItem.contents.status.some(listStatus => listStatus.id === status.id))
 
-
+  // queryのステータスからステータスを取得
+  const findStatus = useCallback((statusList: Status[]) => {
+    const { memberStatus } = query
+    const selected = statusList.find(status => memberStatus === status.name)
+    selected && setStatus(selected)
+    return selected
+  }, [query])
 
   useEffect(() => {
     if (!isReady) return
@@ -27,25 +35,17 @@ const Home: NextPage = () => {
         axios.get<MicroCmsItem<Status[] | ContentsList[]>>(`https://categorys-bff-min.microcms.io/api/v1/${endpoint}`, { headers }))
       const [statusResponse, recommendResponse, pickupResponse] = await Promise.all(fetchData)
       const statusList = statusResponse.data.contents as Status[]
-      const recommend = recommendResponse.data.contents as ContentsList[]
-      const pickup = pickupResponse.data.contents as ContentsList[]
-      // queryのステータスからステータスを取得
-      const findStatus = (statusList: Status[]) => {
-        const { memberStatus } = query
-        const selected = statusList.find(status => memberStatus === status.name)
-        selected && setStatus(selected)
-        return selected
-      }
       const status = findStatus(statusList)
+      // ステータスが存在しない場合後続の処理を実施しない
       if (!status) return
-      // 自身のステータスに該当するコンテンツを取得
-      const filteredRecommend = recommend.filter(recommendItem =>
-        recommendItem.contents.status.some(listStatus => listStatus.id === status.id))
-      setRecommend(filteredRecommend)
-      setPickup(pickup)
+      const topContents = ([recommendResponse.data.contents, pickupResponse.data.contents] as ContentsList[][])
+        .map(contents => filterStatusContents(contents, status))
+        .sort((a, b) => b.length - a.length)[0]
+      setTopContents(topContents)
+      console.log(topContents)
     }
     init()
-  }, [isReady, query])
+  }, [isReady, findStatus])
 
   return (
     <div className={styles.container}>
@@ -55,22 +55,10 @@ const Home: NextPage = () => {
         </h1>
 
         <div>
-          <h2>おすすめ</h2>
+          <h2>TOPコンテンツ</h2>
           <div className={styles.grid}>
-            {recommend.map((item, id) =>(
+            {topContents.map((item, id) =>(
               <a href="https://nextjs.org/docs" className={styles.card} key={`recommend${id}`} >
-                <h3>{item.contents.title}</h3>
-                <p>{item.contents.description}</p>
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <h2>ピックアップ</h2>
-          <div className={styles.grid}>
-            {pickup.map((item, id) =>(
-              <a href="https://nextjs.org/docs" className={styles.card} key={`pickup${id}`} >
                 <h3>{item.contents.title}</h3>
                 <p>{item.contents.description}</p>
               </a>
