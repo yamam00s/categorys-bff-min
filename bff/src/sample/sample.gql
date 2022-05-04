@@ -1,0 +1,7 @@
+type Sample {
+  name: String!
+}
+
+type Query {
+  sample: Sample!
+}
