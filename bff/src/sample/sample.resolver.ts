@@ -1,9 +1,10 @@
-import { Resolver, Query } from '@nestjs/graphql';
-import { IQuery } from 'src/graphql';
-import { SampleService } from './sample.service';
+import { Resolver, Query } from "@nestjs/graphql";
+import { IQuery } from "src/graphql";
+
+import { SampleService } from "./sample.service";
 
 @Resolver()
-export class SampleResolver implements Pick<IQuery, 'sample'> {
+export class SampleResolver implements Pick<IQuery, "sample"> {
   constructor(private readonly service: SampleService) {}
 
   @Query()
